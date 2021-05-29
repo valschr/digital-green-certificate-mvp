@@ -1,0 +1,21 @@
+{
+  "name": "digital-green-certificate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Valentin Schreibmaier",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "apollo-server-lambda": "^2.25.0",
+    "dotenv": "^10.0.0",
+    "graphql": "^15.5.0",
+    "iban": "^0.0.14",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "devDependencies": {
+    "serverless-offline": "^7.0.0"
+  }
+}
