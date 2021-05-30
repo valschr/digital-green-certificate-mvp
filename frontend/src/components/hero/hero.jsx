@@ -1,20 +1,24 @@
 import styled from 'styled-components'
 
+import Container from './../container/container'
+
 const HeroWrapper = styled.div`
     background-color: ${props => props.theme.mainGreen};
-    padding-left: ${props => props.theme.containerPadding};
-    padding-right: ${props => props.theme.containerPadding};
 `
 
 const Heading = styled.h1`
     color: white;
     margin: 0;
-    padding-bottom: 35px;
-    padding-top: 55px;
+    padding-bottom: 25px;
+    padding-top: 35px;
 `
 
-export default ({ text }) => (
+const Hero = ({ text }) => (
     <HeroWrapper>
-        <Heading className="font-hero" >{text}</Heading>
+        <Container>
+          <Heading className="font-hero" >{text}</Heading> 
+        </Container>
     </HeroWrapper>
 )
+
+export default Hero

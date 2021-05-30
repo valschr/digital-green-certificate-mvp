@@ -16,9 +16,11 @@ const TextLabel = styled.span`
     display: block;
 `
 
-export default ({ icon, text, children, target }) => (
+const IconButton = ({ icon, text, children, target }) => (
     <IconButtonWrapper to={target} >
         {children}
         <TextLabel className="font-label" >{text}</TextLabel>
     </IconButtonWrapper>
 )
+
+export default IconButton

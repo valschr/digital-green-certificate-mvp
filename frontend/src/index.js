@@ -8,6 +8,7 @@ import theme from './styles/theme'
 import { ThemeProvider } from 'styled-components'
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { ApolloProvider } from '@apollo/client/react';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_API_ENDPOINT,
@@ -25,6 +26,7 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
+serviceWorkerRegistration.register();
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals

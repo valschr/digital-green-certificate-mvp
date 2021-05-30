@@ -6,6 +6,7 @@ const StyledPersonalIdInput = styled.input`
     line-height: 45px;
     padding-left: 20px;
     padding-right: 20px;
+    font-size: 16px;
 `
 
 const PersonalIdInput = (props) => (

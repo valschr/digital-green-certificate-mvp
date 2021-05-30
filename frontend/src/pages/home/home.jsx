@@ -6,27 +6,37 @@ import IconButton from '../../components/icon_button/icon_button'
 import { ReactComponent as MyQRIcon } from './../../svgs/my_qr_code.svg';
 import { ReactComponent as ScanIcon } from './../../svgs/scan_qr.svg';
 
+const PageWrapper = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`
+
 const ButtonWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     height: 100%;
-    padding-top: 32px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    height: 100%;
+    justify-content: space-around;
+    max-height: 480px;
 `
 
 const Seperator = styled.hr`
     background-color: ${props => props.theme.mainGreen};
-    margin-top: 64px;
-    margin-bottom: 64px;
+    margin-top: 16px;
+    margin-bottom: 16px;
     width: 120px;
     height: 3px;
     box-shadow: none;
     border: none;
 `
 
-export default () => {
+const HomePage = () => {
     return (
-        <div>
+        <PageWrapper>
             <Header />
             <Hero text="Green Digital Certificate" />
             <ButtonWrapper>
@@ -38,6 +48,7 @@ export default () => {
                     <ScanIcon />
                 </IconButton>
             </ButtonWrapper>
-        </div>
+        </PageWrapper>
     )
 }
+export default HomePage

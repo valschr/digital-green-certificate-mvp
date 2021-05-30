@@ -7,3 +7,17 @@ export const setPersonalID = (pid) => {
 export const getPersonalID = () => {
     return window.localStorage.getItem('dgc_pid')
 }
+
+
+export const setToken = (token, expires) => {
+    window.localStorage.setItem('dgc_token', token)
+    window.localStorage.setItem('dgc_token_expires', expires.getTime())
+}
+
+export const getToken = () => {
+    const token = window.localStorage.getItem('dgc_token')
+    const expires = window.localStorage.getItem('dgc_token_expires')
+    const now = (new Date()).getTime()
+    if (!token || !expires || expires < now) return null
+    return token
+}

@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { useState } from "react";
 import IBAN from "iban";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
@@ -7,14 +7,14 @@ import Header from "../../components/header/header";
 import PersonalIdInput from "../../components/text_input/text_input";
 import Button from "../../components/button/button";
 import { setPersonalID } from "../../utils/localStorage";
+import Container from '../../components/container/container'
 
 const Content = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 45px;
-  padding-left: ${(props) => props.theme.containerPadding};
-  padding-right: ${(props) => props.theme.containerPadding};
+  padding-top: 45px;
+  padding-bottom: 45px;
 `;
 
 
@@ -44,18 +44,20 @@ const AddCertificate = () => {
   return (
     <div>
       <Header transparent={true}>
-        <CTA target="/certificate" text="scan" />
+        <CTA target="/scan" text="scan" />
       </Header>
-      <Content>
-        <PersonalIdInput
-          onChange={(e) => setCurrentId(e.target.value)}
-          placeholder="Ihre ID ..."
-        />
-        {inputError && <StyledInputError className="font-label" >{inputError}</StyledInputError>}
-        <Button floating={true} onClick={checkAndSavePID}>
-          weiter
-        </Button>
-      </Content>
+      <Container>
+        <Content>
+          <PersonalIdInput
+            onChange={(e) => setCurrentId(e.target.value)}
+            placeholder="Ihre ID ..."
+          />
+          {inputError && <StyledInputError className="font-label" >{inputError}</StyledInputError>}
+          <Button floating={true} onClick={checkAndSavePID}>
+            weiter
+          </Button>
+        </Content>
+      </Container>
     </div>
   );
 };

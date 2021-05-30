@@ -6,9 +6,12 @@ import { gql, useQuery } from "@apollo/client";
 import CTA from "../../components/cta/cta";
 import Header from "../../components/header/header";
 import Pulse from "../../components/pulse/pulse";
+import Container from '../../components/container/container'
 import QRCode from "react-qr-code";
 import { getPersonalID } from "../../utils/localStorage";
 import { decode } from "../../utils/jwtHandler";
+import { setToken, getToken } from "../../utils/localStorage";
+
 
 const GET_TOKEN = gql`
   query getIdentityToken($uid: String) {
@@ -22,9 +25,9 @@ const Content = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 45px;
-  padding-left: ${(props) => props.theme.containerPadding};
-  padding-right: ${(props) => props.theme.containerPadding};
+  padding-top: 45px;
+  padding-bottom: 45px;
+  align-items: center;
 `;
 
 const ValidTill = styled.p`
@@ -39,9 +42,11 @@ const PersonName = styled.p`
 
 const MyCertificate = (props) => {
   const personalID = getPersonalID();
+  const token = getToken()
 
   const { loading, error, data } = useQuery(GET_TOKEN, {
     variables: { uid: personalID },
+    skip: !!token
   });
 
   const history = useHistory();
@@ -50,37 +55,44 @@ const MyCertificate = (props) => {
 
   useEffect(() => {
     if (!personalID) {
-      return history.push("/add-certificate-id");
+      return history.replace("/add-certificate-id");
     }
-
+    if (data && data.getIdentityToken) {
+      const tkn = decode(data.getIdentityToken.token)
+      const expires = new Date(tkn.data.expires)
+      setToken(data.getIdentityToken.token, expires)
+    }
     // Update the document title using the browser API
     if (qrWrapper.current) {
       setQrCodeWrapperWidth(qrWrapper.current.getBoundingClientRect().width);
     }
-  }, [data, loading. error, personalID]);
+  }, [data, loading, error, personalID, history]);
 
   if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
+  
+  const tokenToUse = token || data.getIdentityToken.token
+  const decodedToken = decode(tokenToUse)
 
-  const decodedToken = data ? decode(data.getIdentityToken.token) : null;
-  console.log(decodedToken)
   return (
     <div>
       <Header transparent={true}>
         <CTA target="/scan" text="scan" />
       </Header>
-      <Content ref={qrWrapper}>
-        <Pulse />
-        {qrCodeWrapperWidth && (
-          <QRCode size={qrCodeWrapperWidth - 64} value={data.getIdentityToken.token} />
-        )}
-        <ValidTill className="font-label">
-          gültig bis
-          <br />
-          {dayjs(decodedToken.data.expires).format('DD.MM.YYYY')}
-        </ValidTill>
-        <PersonName className="font-label">{decodedToken.data.name}</PersonName>
-      </Content>
+      <Container>
+        <Content ref={qrWrapper}>
+          <Pulse />
+          {qrCodeWrapperWidth && (
+            <QRCode size={qrCodeWrapperWidth - 64} value={tokenToUse} />
+          )}
+          <ValidTill className="font-label">
+            gültig bis
+            <br />
+            {dayjs(decodedToken.data.expires).format('DD.MM.YYYY')}
+          </ValidTill>
+          <PersonName className="font-label">{decodedToken.data.name}</PersonName>
+        </Content>
+      </Container>
     </div>
   );
 };
