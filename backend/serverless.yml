@@ -2,8 +2,11 @@ service: apollo-lambda
 provider:
   name: aws
   runtime: nodejs12.x
+  profile: serverless
+  region: eu-central-1
 plugins:
   - serverless-offline
+useDotenv: true
 functions:
   graphql:
     # this is formatted as <FILENAME>.<HANDLER>

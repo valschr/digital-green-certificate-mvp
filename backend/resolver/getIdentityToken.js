@@ -2,6 +2,8 @@ var IBAN = require("iban");
 var jwt = require("jsonwebtoken");
 const { encrypt, decrypt } = require("./../utils/encrypt");
 
+const privateKey = process.env.JWT_PRIVATE_KEY.replace(/\\n/gm, '\n')
+
 const requestUser = (uid) => {
   // this would be an API call to the entity of the country
   // prefixes can be used to distinguish between many countries and regions within
@@ -36,15 +38,13 @@ module.exports = async (_, { uid }) => {
     ...verification,
     encryptedUID,
   };
-  const expiredIn = Math.floor(
-    (verification.expires.getTime() - Date.now()) / 1000
-  );
+  const expiredIn = Math.floor(verification.expires.getTime() / 1000);
   const token = jwt.sign(
     {
       exp: expiredIn,
       data: jwtContent,
     },
-    process.env.JWT_PRIVATE_KEY,
+    privateKey,
     { algorithm: "RS256" }
   );
 
@@ -52,3 +52,5 @@ module.exports = async (_, { uid }) => {
     token,
   };
 };
+
+
